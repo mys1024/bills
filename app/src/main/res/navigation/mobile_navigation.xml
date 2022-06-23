@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_add">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="pers.mys1024.android.bills.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_add"
+        android:name="pers.mys1024.android.bills.ui.add.AddFragment"
+        android:label="@string/title_add"
+        tools:layout="@layout/fragment_add" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="pers.mys1024.android.bills.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_bills"
+        android:name="pers.mys1024.android.bills.ui.bills.BillsFragment"
+        android:label="@string/title_bills"
+        tools:layout="@layout/fragment_bills" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="pers.mys1024.android.bills.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_tags"
+        android:name="pers.mys1024.android.bills.ui.tags.TagsFragment"
+        android:label="@string/title_tags"
+        tools:layout="@layout/fragment_tags" />
 </navigation>

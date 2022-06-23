@@ -1,4 +1,4 @@
-package pers.mys1024.android.bills.ui.home;
+package pers.mys1024.android.bills.ui.add;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import pers.mys1024.android.bills.databinding.FragmentHomeBinding;
+import pers.mys1024.android.bills.databinding.FragmentAddBinding;
 
-public class HomeFragment extends Fragment {
+public class AddFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentAddBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        AddViewModel addViewModel =
+                new ViewModelProvider(this).get(AddViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentAddBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        addViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
