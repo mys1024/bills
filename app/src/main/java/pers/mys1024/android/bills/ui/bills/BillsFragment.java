@@ -19,7 +19,7 @@ public class BillsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        BillsViewModel dashboardViewModel =
+        BillsViewModel billsViewModel =
                 new ViewModelProvider(this).get(BillsViewModel.class);
 
         binding = FragmentBillsBinding.inflate(inflater, container, false);
