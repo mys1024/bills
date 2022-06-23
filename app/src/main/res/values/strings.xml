@@ -2,7 +2,7 @@
     <string name="app_name">记账本</string>
     <string name="title_add">新账单</string>
     <string name="title_bills">所有账单</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_tags">分类</string>
     <string name="tag">tag</string>
     <string name="date">date</string>
     <string name="money">money</string>
