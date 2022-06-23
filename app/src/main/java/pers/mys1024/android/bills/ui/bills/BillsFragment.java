@@ -1,4 +1,4 @@
-package pers.mys1024.android.bills.ui.dashboard;
+package pers.mys1024.android.bills.ui.bills;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,18 +11,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import pers.mys1024.android.bills.databinding.FragmentDashboardBinding;
+import pers.mys1024.android.bills.databinding.FragmentBillsBinding;
 
-public class DashboardFragment extends Fragment {
+public class BillsFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentBillsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        BillsViewModel dashboardViewModel =
+                new ViewModelProvider(this).get(BillsViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentBillsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final RecyclerView rvBills = binding.rvBills;

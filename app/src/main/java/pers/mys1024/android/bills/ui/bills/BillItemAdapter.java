@@ -1,4 +1,4 @@
-package pers.mys1024.android.bills.ui.dashboard;
+package pers.mys1024.android.bills.ui.bills;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;

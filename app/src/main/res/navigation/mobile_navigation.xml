@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="pers.mys1024.android.bills.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_bills"
+        android:name="pers.mys1024.android.bills.ui.bills.BillsFragment"
+        android:label="@string/title_bills"
+        tools:layout="@layout/fragment_bills" />
 
     <fragment
         android:id="@+id/navigation_notifications"
