@@ -6,4 +6,6 @@
     <string name="tag">tag</string>
     <string name="date">date</string>
     <string name="money">money</string>
+    <string name="tv_in">总收入：+￥0</string>
+    <string name="tv_out">总支出：-￥0</string>
 </resources>
