@@ -1,6 +1,7 @@
 package pers.mys1024.android.bills.ui.bills;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import pers.mys1024.android.bills.R;
-import pers.mys1024.android.bills.db.Bill;
+import pers.mys1024.android.bills.db.entity.Bill;
 
 public class BillItemAdapter extends RecyclerView.Adapter<BillHolder> {
-    private final Bill[] bills = new Bill[]{
-            new Bill("午餐", new Date(), 12.52, false),
-            new Bill("晚餐", new Date(), 12.0001, false),
-            new Bill("红包", new Date(), 22.56775, true),
-    };
+    private List<Bill> bills;
+
+    public synchronized void updateBills(List<Bill> bills) {
+        Log.i("db", bills.toString());
+        this.bills = bills;
+        notifyItemRangeChanged(0, bills.size());
+    }
 
     @NonNull
     @Override
@@ -37,12 +40,12 @@ public class BillItemAdapter extends RecyclerView.Adapter<BillHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull BillHolder holder, int position) {
-        holder.setBill(bills[position]);
+        holder.setBill(bills.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return bills.length;
+        return (bills == null) ? 0 : bills.size();
     }
 }
 
@@ -51,7 +54,6 @@ class BillHolder extends RecyclerView.ViewHolder {
     private final TextView tvDate;
     private final TextView tvMoney;
     private final SimpleDateFormat dateFormatter;
-
 
     public BillHolder(@NonNull View itemView) {
         super(itemView);
