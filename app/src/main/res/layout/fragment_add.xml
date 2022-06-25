@@ -70,7 +70,7 @@
             android:spinnerMode="dropdown" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/money_text"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:gravity="center|center_horizontal|center_vertical"
@@ -205,12 +205,12 @@
                 android:textColor="#fff"/>
 
             <Button
-                android:id="@+id/btn_delete"
+                android:id="@+id/btn_reset"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="X"
+                android:text="清零"
                 android:textColor="#fff"/>
         </LinearLayout>
 
@@ -222,11 +222,12 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_reset"
+                android:id="@+id/btn_delete"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="清零"
+                android:text="←"
                 android:textColor="#fff"/>
 
             <Button

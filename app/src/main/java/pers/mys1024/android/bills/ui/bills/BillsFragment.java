@@ -30,7 +30,7 @@ public class BillsFragment extends Fragment {
         rvBills.setAdapter(rvAdapter);
 
         // 获取 BillsViewModel
-        BillsViewModel billsViewModel = BillsViewModel.getInstance(getContext());
+        BillsViewModel billsViewModel = BillsViewModel.getInstance(getActivity());
 
         // 观察 BillsViewModel 的数据变化
         billsViewModel.getBills().observe(getViewLifecycleOwner(), rvAdapter::updateBills);
