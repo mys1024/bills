@@ -22,7 +22,6 @@ public class BillItemAdapter extends RecyclerView.Adapter<BillHolder> {
     private List<Bill> bills;
 
     public synchronized void updateBills(List<Bill> bills) {
-        Log.i("db", bills.toString());
         this.bills = bills;
         notifyItemRangeChanged(0, bills.size());
     }

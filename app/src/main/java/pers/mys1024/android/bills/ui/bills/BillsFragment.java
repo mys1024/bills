@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Locale;
 
 import pers.mys1024.android.bills.databinding.FragmentBillsBinding;
-import pers.mys1024.android.bills.db.AppDatabase;
-import pers.mys1024.android.bills.db.dao.BillDao;
 
 public class BillsFragment extends Fragment {
 
@@ -31,18 +29,16 @@ public class BillsFragment extends Fragment {
         rvBills.setLayoutManager(linearLayoutManager);
         rvBills.setAdapter(rvAdapter);
 
-        // 获取 ViewModel
-        BillDao billDao = AppDatabase.getInstance(getContext()).billDao();
-        BillsViewModel viewModel = BillsViewModel.getInstance();
-        viewModel.setBillDao(billDao);
+        // 获取 BillsViewModel
+        BillsViewModel billsViewModel = BillsViewModel.getInstance(getContext());
 
-        // 观察 ViewModel 的数据变化
-        viewModel.getBills().observe(getViewLifecycleOwner(), rvAdapter::updateBills);
-        viewModel.getTotalIn().observe(
+        // 观察 BillsViewModel 的数据变化
+        billsViewModel.getBills().observe(getViewLifecycleOwner(), rvAdapter::updateBills);
+        billsViewModel.getTotalIn().observe(
                 getViewLifecycleOwner(),
                 totalIn -> binding.tvTotalIn.setText(String.format(Locale.CHINA, "总收入：+¥%.2f", totalIn))
         );
-        viewModel.getTotalOut().observe(
+        billsViewModel.getTotalOut().observe(
                 getViewLifecycleOwner(),
                 totalOut -> binding.tvTotalOut.setText(String.format(Locale.CHINA, "总支出：-¥%.2f", totalOut))
         );

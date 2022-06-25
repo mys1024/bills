@@ -1,5 +1,7 @@
 package pers.mys1024.android.bills.ui.bills;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -7,33 +9,31 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import pers.mys1024.android.bills.db.AppDatabase;
 import pers.mys1024.android.bills.db.dao.BillDao;
 import pers.mys1024.android.bills.db.entity.Bill;
 
 public class BillsViewModel extends ViewModel {
     private static BillsViewModel singleton;
 
-    public static BillsViewModel getInstance() {
+    public static BillsViewModel getInstance(Context context) {
         if (singleton == null) {
-            singleton = new BillsViewModel();
+            singleton = new BillsViewModel(AppDatabase.getInstance(context).billDao());
+            singleton.refreshAll();
         }
         return singleton;
     }
 
-    private BillDao billDao;
+    private final BillDao billDao;
     private final MutableLiveData<List<Bill>> mBills;
     private final MutableLiveData<Double> mTotalIn;
     private final MutableLiveData<Double> mTotalOut;
 
-    private BillsViewModel() {
+    private BillsViewModel(BillDao billDao) {
+        this.billDao = billDao;
         mBills = new MutableLiveData<>(new ArrayList<>());
         mTotalIn = new MutableLiveData<>(0.0);
         mTotalOut = new MutableLiveData<>(0.0);
-    }
-
-    public void setBillDao(BillDao billDao) {
-        this.billDao = billDao;
-        refreshAll();
     }
 
     public void refreshAll() {
@@ -51,6 +51,13 @@ public class BillsViewModel extends ViewModel {
             }
             mTotalIn.postValue(totalIn);
             mTotalOut.postValue(totalOut);
+        }).start();
+    }
+
+    public void insertBill(Bill bill) {
+        new Thread(() -> {
+            billDao.insert(bill);
+            refreshAll();
         }).start();
     }
 
