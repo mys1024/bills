@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -56,6 +57,8 @@ public class AddFragment extends Fragment {
             ));
             // 重置
             addViewModel.reset();
+            // 弹出气泡提醒
+            Toast.makeText(getContext(), "添加成功", Toast.LENGTH_SHORT).show();
         });
 
         // 监听 AddViewModel 的 LiveData
