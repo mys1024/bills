@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import pers.mys1024.android.bills.ThreadPoolManager;
 import pers.mys1024.android.bills.db.AppDatabase;
 import pers.mys1024.android.bills.db.dao.BillDao;
 import pers.mys1024.android.bills.db.entity.Bill;
@@ -37,7 +38,7 @@ public class BillsViewModel extends ViewModel {
     }
 
     public void refreshAll() {
-        new Thread(() -> {
+        ThreadPoolManager.getCacheThreadPool().submit(() -> {
             List<Bill> bills = billDao.getAll();
             mBills.postValue(bills);
             double totalIn = 0;
@@ -51,21 +52,21 @@ public class BillsViewModel extends ViewModel {
             }
             mTotalIn.postValue(totalIn);
             mTotalOut.postValue(totalOut);
-        }).start();
+        });
     }
 
     public void insertBill(Bill bill) {
-        new Thread(() -> {
+        ThreadPoolManager.getCacheThreadPool().submit(() -> {
             billDao.insert(bill);
             refreshAll();
-        }).start();
+        });
     }
 
     public void deleteBill(Bill bill) {
-        new Thread(() -> {
+        ThreadPoolManager.getCacheThreadPool().submit(() -> {
             billDao.delete(bill);
             refreshAll();
-        }).start();
+        });
     }
 
     public LiveData<List<Bill>> getBills() {
