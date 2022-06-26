@@ -7,13 +7,52 @@
     tools:context=".ui.bills.BillsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_tags_top"
+        android:id="@+id/constraint_layout_tags_top1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/btn_out"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="16dp"
+            android:text="@string/out"
+            android:background="@color/purple_500"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:drawableTopCompat="@mipmap/zhichu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/btn_in"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_500"
+            android:paddingVertical="16dp"
+            android:text="@string/in"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:drawableTopCompat="@mipmap/shouru"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_out"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5"
+            tools:ignore="TextContrastCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_tags_top2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraint_layout_tags_top1">
 
         <EditText
             android:id="@+id/et_tag_name"
@@ -26,10 +65,10 @@
             android:hint="@string/new_tag"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:textColorHint="#E1BEE7"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btn_add_tag"
@@ -47,10 +86,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="96dp"
+        android:paddingTop="160dp"
         android:paddingBottom="64dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraint_layout_tags_top">
+        app:layout_constraintTop_toBottomOf="@+id/constraint_layout_tags_top2">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tags"

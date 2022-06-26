@@ -63,18 +63,15 @@ public class TagItemAdapter extends RecyclerView.Adapter<TagHolder> {
 class TagHolder extends RecyclerView.ViewHolder {
     private Tag tag;
     private final TextView tvTagName;
-    private final TextView tvInOrOut;
 
     public TagHolder(@NonNull View itemView) {
         super(itemView);
         this.tvTagName = itemView.findViewById(R.id.tv_tag_name);
-        this.tvInOrOut = itemView.findViewById(R.id.tv_in_or_out);
     }
 
     public void setTag(Tag tag) {
         this.tag = tag;
         tvTagName.setText(tag.getName());
-        tvInOrOut.setText(tag.getIn() ? "收入" : "支出");
     }
 
     public Tag getTag() {

@@ -43,8 +43,8 @@ public class AddFragment extends Fragment {
         binding.btnDot.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('.'));
         binding.btnDelete.setOnClickListener(view -> addViewModel.popDigitFromMoneyDigitText());
         binding.btnReset.setOnClickListener(view -> addViewModel.resetMoneyDigitText());
-        binding.tvGw.setOnClickListener(view -> addViewModel.setIn(false));
-        binding.tvHf.setOnClickListener(view -> addViewModel.setIn(true));
+        binding.tvOut.setOnClickListener(view -> addViewModel.setIn(false));
+        binding.tvIn.setOnClickListener(view -> addViewModel.setIn(true));
         binding.btnSure.setOnClickListener(view -> {
             // 获取 BillsViewModel 并插入一个 Bill
             BillsViewModel billsViewModel = BillsViewModel.getInstance(getActivity());

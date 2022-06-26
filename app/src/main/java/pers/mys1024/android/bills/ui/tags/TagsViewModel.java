@@ -15,9 +15,11 @@ public class TagsViewModel extends ViewModel {
 
     private TagDao tagDao;
     private final MutableLiveData<List<Tag>> mTags;
+    private final MutableLiveData<Boolean> mIn;
 
     public TagsViewModel() {
         mTags = new MutableLiveData<>(new ArrayList<>());
+        mIn = new MutableLiveData<>(false);
     }
 
     /***********************************************************
@@ -41,11 +43,29 @@ public class TagsViewModel extends ViewModel {
         });
     }
 
-    public void refreshTags() {
+    private void refreshTags() {
         ThreadPoolManager.getCacheThreadPool().submit(() -> {
-            List<Tag> tags = tagDao.getAll();
+            boolean in = Boolean.TRUE.equals(mIn.getValue());
+            List<Tag> tags = new ArrayList<>();
+            for (Tag tag : tagDao.getAll()) {
+                if (tag.getIn() == in) {
+                    tags.add(tag);
+                }
+            }
             mTags.postValue(tags);
         });
+    }
+
+    /***********************************************************
+     *************************** mIn ***************************
+     ***********************************************************/
+    public LiveData<Boolean> getIn() {
+        return mIn;
+    }
+
+    public void setIn(boolean in) {
+        mIn.setValue(in);
+        refreshTags();
     }
 
     /***********************************************************

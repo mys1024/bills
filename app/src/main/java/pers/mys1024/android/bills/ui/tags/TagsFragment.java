@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import pers.mys1024.android.bills.ThreadPoolManager;
+import pers.mys1024.android.bills.R;
 import pers.mys1024.android.bills.databinding.FragmentTagsBinding;
 import pers.mys1024.android.bills.db.AppDatabase;
 import pers.mys1024.android.bills.db.dao.TagDao;
@@ -54,18 +54,28 @@ public class TagsFragment extends Fragment {
             ab.show();
         });
 
-        // 监听 TagsViewModel 数据变化
-        tagsViewModel.getTags().observe(getViewLifecycleOwner(), rvAdapter::updateTags);
-
-        // 监听添加按钮
+        // 监听按钮点击事件
+        binding.btnIn.setOnClickListener(view -> {
+            binding.btnIn.setBackgroundColor(getResources().getColor(R.color.purple_500));
+            binding.btnOut.setBackgroundColor(getResources().getColor(R.color.gray_500));
+            tagsViewModel.setIn(true);
+        });
+        binding.btnOut.setOnClickListener(view -> {
+            binding.btnIn.setBackgroundColor(getResources().getColor(R.color.gray_500));
+            binding.btnOut.setBackgroundColor(getResources().getColor(R.color.purple_500));
+            tagsViewModel.setIn(false);
+        });
         binding.btnAddTag.setOnClickListener(view -> {
             String tagName = binding.etTagName.getText().toString();
             if (!tagName.equals("")) {
-                tagsViewModel.insertTag(new Tag(null, tagName, false));
+                tagsViewModel.insertTag(new Tag(null, tagName, tagsViewModel.getIn().getValue()));
                 Toast.makeText(getContext(), "添加成功", Toast.LENGTH_SHORT).show();
                 binding.etTagName.getText().clear();
             }
         });
+
+        // 监听 TagsViewModel 数据变化
+        tagsViewModel.getTags().observe(getViewLifecycleOwner(), rvAdapter::updateTags);
 
         return binding.getRoot();
     }
