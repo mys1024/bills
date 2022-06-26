@@ -37,6 +37,11 @@ public class AddFragment extends Fragment {
         AddViewModel addViewModel =
                 new ViewModelProvider(this).get(AddViewModel.class);
 
+        // 获取 BillsViewModel
+        BillsViewModel billsViewModel =
+                new ViewModelProvider(this).get(BillsViewModel.class);
+        billsViewModel.setBillDao(AppDatabase.getInstance(getActivity()).billDao());
+
         // 获取 TagsViewModel
         TagsViewModel tagsViewModel =
                 new ViewModelProvider(this).get(TagsViewModel.class);
@@ -77,8 +82,7 @@ public class AddFragment extends Fragment {
             addViewModel.setIn(true);
         });
         binding.btnSure.setOnClickListener(view -> {
-            // 获取 BillsViewModel 并插入一个 Bill
-            BillsViewModel billsViewModel = BillsViewModel.getInstance(getActivity());
+            // 插入一个 Bill
             Object selected = binding.spinnerTag.getSelectedItem();
             billsViewModel.insertBill(new Bill(
                     null,

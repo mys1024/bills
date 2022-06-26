@@ -86,7 +86,7 @@ public class TagsViewModel extends ViewModel {
 
     private void refreshAllTags() {
         ThreadPoolManager.getCacheThreadPool().submit(() -> {
-            List<Tag> tags = tagDao.getAll();
+            List<Tag> tags = tagDao.getDescAll();
             List<Tag> outTags = new ArrayList<>();
             List<Tag> inTags = new ArrayList<>();
             for (Tag tag : tags) {

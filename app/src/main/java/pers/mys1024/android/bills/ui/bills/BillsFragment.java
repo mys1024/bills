@@ -9,12 +9,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Locale;
 
 import pers.mys1024.android.bills.databinding.FragmentBillsBinding;
+import pers.mys1024.android.bills.db.AppDatabase;
 
 public class BillsFragment extends Fragment {
 
@@ -32,7 +34,9 @@ public class BillsFragment extends Fragment {
         rvBills.setAdapter(rvAdapter);
 
         // 获取 BillsViewModel
-        BillsViewModel billsViewModel = BillsViewModel.getInstance(getActivity());
+        BillsViewModel billsViewModel =
+                new ViewModelProvider(this).get(BillsViewModel.class);
+        billsViewModel.setBillDao(AppDatabase.getInstance(getActivity()).billDao());
 
         // 长按删除 Bill
         rvAdapter.onItemLongClick(bill -> {

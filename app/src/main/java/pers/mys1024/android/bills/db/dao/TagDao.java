@@ -33,7 +33,10 @@ public interface TagDao {
     @Query("SELECT * FROM Tag")
     List<Tag> getAll();
 
-    @Query("SELECT * FROM Tag WHERE tid=:id")
+    @Query("SELECT * FROM Tag ORDER BY id DESC")
+    List<Tag> getDescAll();
+
+    @Query("SELECT * FROM Tag WHERE id=:id")
     Tag findById(Long id);
 
     @Query("SELECT count(*) FROM Tag")

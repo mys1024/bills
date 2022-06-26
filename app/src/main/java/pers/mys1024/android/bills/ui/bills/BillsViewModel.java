@@ -10,49 +10,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pers.mys1024.android.bills.ThreadPoolManager;
-import pers.mys1024.android.bills.db.AppDatabase;
 import pers.mys1024.android.bills.db.dao.BillDao;
 import pers.mys1024.android.bills.db.entity.Bill;
 
 public class BillsViewModel extends ViewModel {
-    private static BillsViewModel singleton;
-
-    public static BillsViewModel getInstance(Context context) {
-        if (singleton == null) {
-            singleton = new BillsViewModel(AppDatabase.getInstance(context).billDao());
-            singleton.refreshAll();
-        }
-        return singleton;
-    }
-
-    private final BillDao billDao;
+    private BillDao billDao;
     private final MutableLiveData<List<Bill>> mBills;
     private final MutableLiveData<Double> mTotalIn;
     private final MutableLiveData<Double> mTotalOut;
 
-    private BillsViewModel(BillDao billDao) {
-        this.billDao = billDao;
+    public BillsViewModel() {
         mBills = new MutableLiveData<>(new ArrayList<>());
         mTotalIn = new MutableLiveData<>(0.0);
         mTotalOut = new MutableLiveData<>(0.0);
     }
 
-    public void refreshAll() {
-        ThreadPoolManager.getCacheThreadPool().submit(() -> {
-            List<Bill> bills = billDao.getAll();
-            mBills.postValue(bills);
-            double totalIn = 0;
-            double totalOut = 0;
-            for (Bill bill : bills) {
-                if (bill.getIn()) {
-                    totalIn += bill.getMoney();
-                } else {
-                    totalOut += bill.getMoney();
-                }
-            }
-            mTotalIn.postValue(totalIn);
-            mTotalOut.postValue(totalOut);
-        });
+    /***********************************************************
+     ************************** mBills *************************
+     ***********************************************************/
+    public LiveData<List<Bill>> getBills() {
+        return mBills;
     }
 
     public void insertBill(Bill bill) {
@@ -69,15 +46,43 @@ public class BillsViewModel extends ViewModel {
         });
     }
 
-    public LiveData<List<Bill>> getBills() {
-        return mBills;
-    }
-
+    /***********************************************************
+     ************************* mTotalIn ************************
+     ***********************************************************/
     public MutableLiveData<Double> getTotalIn() {
         return mTotalIn;
     }
 
+    /***********************************************************
+     ************************ mTotalOut ************************
+     ***********************************************************/
     public MutableLiveData<Double> getTotalOut() {
         return mTotalOut;
+    }
+
+    /***********************************************************
+     *************************** 其他 ***************************
+     ***********************************************************/
+    public void setBillDao(BillDao billDao) {
+        this.billDao = billDao;
+        refreshAll();
+    }
+
+    private void refreshAll() {
+        ThreadPoolManager.getCacheThreadPool().submit(() -> {
+            List<Bill> bills = billDao.getDescAll();
+            mBills.postValue(bills);
+            double totalIn = 0;
+            double totalOut = 0;
+            for (Bill bill : bills) {
+                if (bill.getIn()) {
+                    totalIn += bill.getMoney();
+                } else {
+                    totalOut += bill.getMoney();
+                }
+            }
+            mTotalIn.postValue(totalIn);
+            mTotalOut.postValue(totalOut);
+        });
     }
 }

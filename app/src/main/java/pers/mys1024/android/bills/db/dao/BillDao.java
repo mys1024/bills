@@ -33,6 +33,9 @@ public interface BillDao {
     @Query("SELECT * FROM Bill")
     List<Bill> getAll();
 
+    @Query("SELECT * FROM Bill ORDER BY id DESC")
+    List<Bill> getDescAll();
+
     @Query("SELECT * FROM Bill WHERE id=:id")
     Bill findById(Long id);
 

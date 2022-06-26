@@ -7,22 +7,22 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Tag {
     @PrimaryKey(autoGenerate = true)
-    private Long tid;        // 账单号
+    private Long id;        // 账单号
     private String name;    // tag 名
     private Boolean in;     // 是否为“收入” tag
 
-    public Tag(Long tid, String name, Boolean in) {
-        this.tid = tid;
+    public Tag(Long id, String name, Boolean in) {
+        this.id = id;
         this.name = name;
         this.in = in;
     }
 
-    public Long getTid() {
-        return tid;
+    public Long getId() {
+        return id;
     }
 
-    public void setTid(Long tid) {
-        this.tid = tid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -45,7 +45,7 @@ public class Tag {
     @Override
     public String toString() {
         return "Tag{" +
-                "id=" + tid +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", in=" + in +
                 '}';

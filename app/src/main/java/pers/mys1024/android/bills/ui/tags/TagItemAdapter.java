@@ -22,7 +22,6 @@ public class TagItemAdapter extends RecyclerView.Adapter<TagHolder> {
 
     @SuppressLint("NotifyDataSetChanged")
     public synchronized void updateTags(List<Tag> tags) {
-        Log.i("db", "tags: " + tags.toString());
         this.tags = tags;
         notifyDataSetChanged();
     }
