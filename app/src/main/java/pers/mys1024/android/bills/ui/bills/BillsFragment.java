@@ -1,9 +1,11 @@
 package pers.mys1024.android.bills.ui.bills;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -31,6 +33,18 @@ public class BillsFragment extends Fragment {
 
         // 获取 BillsViewModel
         BillsViewModel billsViewModel = BillsViewModel.getInstance(getActivity());
+
+        // 长按删除 Bill
+        rvAdapter.onItemLongClick(bill -> {
+            AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
+            ab.setMessage("是否要删除？");
+            ab.setPositiveButton("确认", (a, b) -> {
+                billsViewModel.deleteBill(bill);
+                Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+            });
+            ab.setNegativeButton("取消", (a, b) -> a.dismiss());
+            ab.show();
+        });
 
         // 观察 BillsViewModel 的数据变化
         billsViewModel.getBills().observe(getViewLifecycleOwner(), rvAdapter::updateBills);

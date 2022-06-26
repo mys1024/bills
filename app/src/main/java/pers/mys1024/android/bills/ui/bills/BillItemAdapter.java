@@ -1,7 +1,7 @@
 package pers.mys1024.android.bills.ui.bills;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -20,10 +21,16 @@ import pers.mys1024.android.bills.db.entity.Bill;
 
 public class BillItemAdapter extends RecyclerView.Adapter<BillHolder> {
     private List<Bill> bills;
+    private final List<BillItemAdapterListener> longClickListeners = new ArrayList<>();
 
+    @SuppressLint("NotifyDataSetChanged")
     public synchronized void updateBills(List<Bill> bills) {
         this.bills = bills;
-        notifyItemRangeChanged(0, bills.size());
+        notifyDataSetChanged();
+    }
+
+    public void onItemLongClick(BillItemAdapterListener listener) {
+        longClickListeners.add(listener);
     }
 
     @NonNull
@@ -34,7 +41,14 @@ public class BillItemAdapter extends RecyclerView.Adapter<BillHolder> {
                 parent,
                 false
         );
-        return new BillHolder(view);
+        BillHolder holder = new BillHolder(view);
+        view.setOnLongClickListener(v -> {
+            for (BillItemAdapterListener l : longClickListeners) {
+                l.run(holder.getBill());
+            }
+            return false;
+        });
+        return holder;
     }
 
     @Override
@@ -49,6 +63,7 @@ public class BillItemAdapter extends RecyclerView.Adapter<BillHolder> {
 }
 
 class BillHolder extends RecyclerView.ViewHolder {
+    private Bill bill;
     private final TextView tvTag;
     private final TextView tvDate;
     private final TextView tvMoney;
@@ -64,6 +79,7 @@ class BillHolder extends RecyclerView.ViewHolder {
     }
 
     public void setBill(Bill bill) {
+        this.bill = bill;
         this.tvTag.setText(bill.getTag());
         this.tvDate.setText(this.dateFormatter.format(bill.getDate()));
         this.tvMoney.setText(String.format(
@@ -76,4 +92,12 @@ class BillHolder extends RecyclerView.ViewHolder {
                 bill.getIn() ? Color.rgb(50, 200, 50) : Color.rgb(225, 50, 50)
         );
     }
+
+    public Bill getBill() {
+        return bill;
+    }
+}
+
+interface BillItemAdapterListener {
+    void run(Bill bill);
 }

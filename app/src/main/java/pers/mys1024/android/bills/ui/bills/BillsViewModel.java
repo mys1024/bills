@@ -61,6 +61,13 @@ public class BillsViewModel extends ViewModel {
         }).start();
     }
 
+    public void deleteBill(Bill bill) {
+        new Thread(() -> {
+            billDao.delete(bill);
+            refreshAll();
+        }).start();
+    }
+
     public LiveData<List<Bill>> getBills() {
         return mBills;
     }
