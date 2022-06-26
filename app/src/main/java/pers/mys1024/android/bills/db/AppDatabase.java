@@ -8,14 +8,16 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import pers.mys1024.android.bills.db.dao.BillDao;
+import pers.mys1024.android.bills.db.dao.TagDao;
 import pers.mys1024.android.bills.db.entity.Bill;
+import pers.mys1024.android.bills.db.entity.Tag;
 
-@Database(entities = {Bill.class}, version = 3, exportSchema = false)
+@Database(entities = {Bill.class, Tag.class}, version = 5, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase sInstance;
 
-    public static synchronized AppDatabase getInstance(Context context) {
+    public static AppDatabase getInstance(Context context) {
         if (sInstance == null) {
             sInstance = Room.databaseBuilder(
                     context.getApplicationContext(),
@@ -26,6 +28,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return sInstance;
     }
 
-    @SuppressWarnings("WeakerAccess")
     public abstract BillDao billDao();
+
+    public abstract TagDao tagDao();
 }
