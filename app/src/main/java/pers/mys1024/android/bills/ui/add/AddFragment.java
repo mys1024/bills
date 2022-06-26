@@ -1,16 +1,12 @@
 package pers.mys1024.android.bills.ui.add;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Date;
@@ -32,20 +28,22 @@ public class AddFragment extends Fragment {
         AddViewModel addViewModel =
                 new ViewModelProvider(this).get(AddViewModel.class);
 
-        // 监听数字键盘按钮的点击事件
-        binding.btn0.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('0'));
-        binding.btn1.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('1'));
-        binding.btn2.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('2'));
-        binding.btn3.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('3'));
-        binding.btn4.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('4'));
-        binding.btn5.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('5'));
-        binding.btn6.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('6'));
-        binding.btn7.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('7'));
-        binding.btn8.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('8'));
-        binding.btn9.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('9'));
-        binding.btnDot.setOnClickListener(view -> addViewModel.pushDigitToMoneyText('.'));
-        binding.btnDelete.setOnClickListener(view -> addViewModel.popDigitFromMoneyText());
-        binding.btnReset.setOnClickListener(view -> addViewModel.resetMoneyText());
+        // 监听按钮的点击事件
+        binding.btn0.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('0'));
+        binding.btn1.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('1'));
+        binding.btn2.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('2'));
+        binding.btn3.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('3'));
+        binding.btn4.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('4'));
+        binding.btn5.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('5'));
+        binding.btn6.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('6'));
+        binding.btn7.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('7'));
+        binding.btn8.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('8'));
+        binding.btn9.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('9'));
+        binding.btnDot.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('.'));
+        binding.btnDelete.setOnClickListener(view -> addViewModel.popDigitFromMoneyDigitText());
+        binding.btnReset.setOnClickListener(view -> addViewModel.resetMoneyDigitText());
+        binding.tvGw.setOnClickListener(view -> addViewModel.setIn(false));
+        binding.tvHf.setOnClickListener(view -> addViewModel.setIn(true));
         binding.btnSure.setOnClickListener(view -> {
             // 获取 BillsViewModel 并插入一个 Bill
             BillsViewModel billsViewModel = BillsViewModel.getInstance(getActivity());
@@ -53,17 +51,18 @@ public class AddFragment extends Fragment {
                     null,
                     "晚餐",
                     new Date(),
-                    Double.parseDouble(Objects.requireNonNull(addViewModel.getMoneyText().getValue())),
-                    false
+                    Double.parseDouble(Objects.requireNonNull(addViewModel.getMoneyDigitText().getValue())),
+                    addViewModel.getIn().getValue()
             ));
             // 重置
-            addViewModel.resetMoneyText();
+            addViewModel.reset();
         });
 
         // 监听 AddViewModel 的 LiveData
-        addViewModel.getMoneyText().observe(getViewLifecycleOwner(), moneyText -> {
-            binding.moneyText.setText(moneyText);
-        });
+        addViewModel.getMoneyText().observe(
+                getViewLifecycleOwner(),
+                moneyText -> binding.moneyText.setText(moneyText)
+        );
 
         return binding.getRoot();
     }

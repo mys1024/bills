@@ -8,15 +8,37 @@ import java.util.Objects;
 
 public class AddViewModel extends ViewModel {
 
+    private final MutableLiveData<Boolean> mIn;
+    private final MutableLiveData<String> mMoneyDigitText;
     private final MutableLiveData<String> mMoneyText;
 
     public AddViewModel() {
-        mMoneyText = new MutableLiveData<>();
-        mMoneyText.setValue("0");
+        mMoneyDigitText = new MutableLiveData<>("0");
+        mIn = new MutableLiveData<>(false);
+        mMoneyText = new MutableLiveData<>("-¥0");
     }
 
-    public void pushDigitToMoneyText(char c) {
-        String moneyText = mMoneyText.getValue();
+    /***********************************************************
+     *************************** mIn ***************************
+     ***********************************************************/
+    public LiveData<Boolean> getIn() {
+        return mIn;
+    }
+
+    public void setIn(boolean in) {
+        mIn.setValue(in);
+        updateMoneyText();
+    }
+
+    /***********************************************************
+     ********************* mMoneyDigitText *********************
+     ***********************************************************/
+    public LiveData<String> getMoneyDigitText() {
+        return mMoneyDigitText;
+    }
+
+    public void pushDigitToMoneyDigitText(char c) {
+        String moneyText = mMoneyDigitText.getValue();
         if (Objects.equals(moneyText, "0") && c != '.') {
             moneyText = "" + c;
         } else if (c == '.') {
@@ -26,24 +48,45 @@ public class AddViewModel extends ViewModel {
         } else {
             moneyText += c;
         }
-        mMoneyText.postValue(moneyText);
+        mMoneyDigitText.setValue(moneyText);
+        updateMoneyText();
     }
 
-    public void popDigitFromMoneyText() {
-        String moneyText = mMoneyText.getValue();
+    public void popDigitFromMoneyDigitText() {
+        String moneyText = mMoneyDigitText.getValue();
         if (moneyText == null || moneyText.length() == 1) {
             moneyText = "0";
         } else {
             moneyText = moneyText.substring(0, moneyText.length() - 1);
         }
-        mMoneyText.postValue(moneyText);
+        mMoneyDigitText.setValue(moneyText);
+        updateMoneyText();
     }
 
-    public void resetMoneyText() {
-        mMoneyText.postValue("0");
-    }
-
-    public MutableLiveData<String> getMoneyText() {
+    /***********************************************************
+     *********************** mMoneyText ************************
+     ***********************************************************/
+    public LiveData<String> getMoneyText() {
         return mMoneyText;
+    }
+
+    public void resetMoneyDigitText() {
+        mMoneyDigitText.setValue("0");
+        updateMoneyText();
+    }
+
+    private void updateMoneyText() {
+        mMoneyText.setValue(
+                (Boolean.TRUE.equals(mIn.getValue()) ? "+¥" : "-¥") + mMoneyDigitText.getValue()
+        );
+    }
+
+    /***********************************************************
+     ************************** 其他 ****************************
+     ***********************************************************/
+    public void reset() {
+        mIn.setValue(false);
+        mMoneyDigitText.setValue("0");
+        updateMoneyText();
     }
 }
