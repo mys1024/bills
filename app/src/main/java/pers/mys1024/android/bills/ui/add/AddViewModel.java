@@ -19,6 +19,10 @@ public class AddViewModel extends ViewModel {
         String moneyText = mMoneyText.getValue();
         if (Objects.equals(moneyText, "0") && c != '.') {
             moneyText = "" + c;
+        } else if (c == '.') {
+            if (moneyText != null && !moneyText.contains(".")) {
+                moneyText += c;
+            }
         } else {
             moneyText += c;
         }
