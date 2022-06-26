@@ -10,4 +10,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorClick">#FFC006</color>
     <color name="colorNormal">#717171</color>
+    <color name="red">#E13232</color>
+    <color name="green">#32C832</color>
 </resources>

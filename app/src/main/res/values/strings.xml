@@ -13,4 +13,19 @@
     <string name="out">支出</string>
     <string name="new_tag">新分类</string>
     <string name="add">添加</string>
+    <string name="default_money_text">-¥0</string>
+    <string name="num_1">1</string>
+    <string name="num_4">4</string>
+    <string name="num_7">7</string>
+    <string name="symbol_dot">.</string>
+    <string name="num_2">2</string>
+    <string name="num_5">5</string>
+    <string name="num_8">8</string>
+    <string name="num_0">0</string>
+    <string name="num_3">3</string>
+    <string name="num_6">6</string>
+    <string name="num_9">9</string>
+    <string name="num_clear">清零</string>
+    <string name="symbol_delete">←</string>
+    <string name="sure">确定</string>
 </resources>

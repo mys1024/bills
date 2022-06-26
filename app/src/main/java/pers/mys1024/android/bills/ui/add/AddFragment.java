@@ -1,21 +1,29 @@
 package pers.mys1024.android.bills.ui.add;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import pers.mys1024.android.bills.R;
 import pers.mys1024.android.bills.databinding.FragmentAddBinding;
+import pers.mys1024.android.bills.db.AppDatabase;
 import pers.mys1024.android.bills.db.entity.Bill;
+import pers.mys1024.android.bills.db.entity.Tag;
 import pers.mys1024.android.bills.ui.bills.BillsViewModel;
+import pers.mys1024.android.bills.ui.tags.TagsViewModel;
 
 public class AddFragment extends Fragment {
 
@@ -28,6 +36,19 @@ public class AddFragment extends Fragment {
         // 获取 AddViewModel
         AddViewModel addViewModel =
                 new ViewModelProvider(this).get(AddViewModel.class);
+
+        // 获取 TagsViewModel
+        TagsViewModel tagsViewModel =
+                new ViewModelProvider(this).get(TagsViewModel.class);
+        tagsViewModel.setTagDao(AppDatabase.getInstance(getActivity()).tagDao());
+
+        // 设置 Spinner
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                getContext(),
+                com.google.android.material.R.layout.support_simple_spinner_dropdown_item,
+                new ArrayList<>()
+        );
+        binding.spinnerTag.setAdapter(arrayAdapter);
 
         // 监听按钮的点击事件
         binding.btn0.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('0'));
@@ -43,20 +64,31 @@ public class AddFragment extends Fragment {
         binding.btnDot.setOnClickListener(view -> addViewModel.pushDigitToMoneyDigitText('.'));
         binding.btnDelete.setOnClickListener(view -> addViewModel.popDigitFromMoneyDigitText());
         binding.btnReset.setOnClickListener(view -> addViewModel.resetMoneyDigitText());
-        binding.tvOut.setOnClickListener(view -> addViewModel.setIn(false));
-        binding.tvIn.setOnClickListener(view -> addViewModel.setIn(true));
+        binding.btnOut.setOnClickListener(view -> {
+            binding.btnIn.setBackgroundColor(getResources().getColor(R.color.gray_500));
+            binding.btnOut.setBackgroundColor(getResources().getColor(R.color.purple_500));
+            binding.moneyText.setTextColor(getResources().getColor(R.color.red));
+            addViewModel.setIn(false);
+        });
+        binding.btnIn.setOnClickListener(view -> {
+            binding.btnIn.setBackgroundColor(getResources().getColor(R.color.purple_500));
+            binding.btnOut.setBackgroundColor(getResources().getColor(R.color.gray_500));
+            binding.moneyText.setTextColor(getResources().getColor(R.color.green));
+            addViewModel.setIn(true);
+        });
         binding.btnSure.setOnClickListener(view -> {
             // 获取 BillsViewModel 并插入一个 Bill
             BillsViewModel billsViewModel = BillsViewModel.getInstance(getActivity());
+            Object selected = binding.spinnerTag.getSelectedItem();
             billsViewModel.insertBill(new Bill(
                     null,
-                    "晚餐",
+                    selected == null ? "未分类" : selected.toString(),
                     new Date(),
                     Double.parseDouble(Objects.requireNonNull(addViewModel.getMoneyDigitText().getValue())),
                     addViewModel.getIn().getValue()
             ));
             // 重置
-            addViewModel.reset();
+            addViewModel.resetMoneyDigitText();
             // 弹出气泡提醒
             Toast.makeText(getContext(), "添加成功", Toast.LENGTH_SHORT).show();
         });
@@ -65,6 +97,43 @@ public class AddFragment extends Fragment {
         addViewModel.getMoneyText().observe(
                 getViewLifecycleOwner(),
                 moneyText -> binding.moneyText.setText(moneyText)
+        );
+        addViewModel.getIn().observe(
+                getViewLifecycleOwner(),
+                in -> {
+                    arrayAdapter.clear();
+                    List<Tag> tags = (in ? tagsViewModel.getInTags() : tagsViewModel.getOutTags()).getValue();
+                    assert tags != null;
+                    for (Tag tag : tags) {
+                        arrayAdapter.add(tag.getName());
+                    }
+                }
+        );
+
+        // 监听 TagsViewModel 的 LiveData
+        tagsViewModel.getInTags().observe(
+                getViewLifecycleOwner(),
+                tags -> {
+                    if (!Boolean.TRUE.equals(addViewModel.getIn().getValue())) {
+                        return;
+                    }
+                    arrayAdapter.clear();
+                    for (Tag tag : tags) {
+                        arrayAdapter.add(tag.getName());
+                    }
+                }
+        );
+        tagsViewModel.getOutTags().observe(
+                getViewLifecycleOwner(),
+                tags -> {
+                    if (Boolean.TRUE.equals(addViewModel.getIn().getValue())) {
+                        return;
+                    }
+                    arrayAdapter.clear();
+                    for (Tag tag : tags) {
+                        arrayAdapter.add(tag.getName());
+                    }
+                }
         );
 
         return binding.getRoot();

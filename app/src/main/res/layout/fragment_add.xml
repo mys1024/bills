@@ -10,61 +10,49 @@
     tools:context=".ui.add.AddFragment">
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_add_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/ll_hf"
+        <TextView
+            android:id="@+id/btn_out"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:background="@drawable/my_drawable"
-            android:orientation="vertical">
+            android:paddingVertical="16dp"
+            android:text="@string/out"
+            android:background="@color/purple_500"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:drawableTopCompat="@mipmap/zhichu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
 
-
-            <TextView
-                android:id="@+id/tv_out"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/out"
-                android:textAlignment="center"
-                android:textColor="@color/colorNormal"
-                app:drawableTopCompat="@mipmap/zhichu" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_gw"
+        <TextView
+            android:id="@+id/btn_in"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:background="@color/gray_500"
+            android:paddingVertical="16dp"
+            android:text="@string/in"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:drawableTopCompat="@mipmap/shouru"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_out"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5"
+            tools:ignore="TextContrastCheck" />
 
-            <TextView
-                android:id="@+id/tv_in"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/in"
-                android:textColor="@color/colorNormal"
-                android:textAlignment="center"
-                app:drawableTopCompat="@mipmap/shouru"/>
-        </LinearLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:orientation="vertical"
         android:gravity="center"
         android:baselineAligned="false">
@@ -76,24 +64,25 @@
             android:orientation="horizontal">
 
             <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="20dp"
+                android:id="@+id/spinner_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:paddingHorizontal="12dp"
+                android:spinnerMode="dialog"
                 android:background="@drawable/selector_for_custom_spinner"
-                android:entries="@array/spinner_string"
-                android:popupBackground="@drawable/shape_for_custom_spinner"
-                android:spinnerMode="dropdown"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/money_text"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginStart="32dp"
                 android:gravity="center_vertical"
-                android:text="+¥0"
+                android:textColor="@color/red"
+                android:text="@string/default_money_text"
                 android:textSize="48sp" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -106,7 +95,6 @@
         android:gravity="bottom"
         android:paddingBottom="64dp">
 
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -118,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@color/colorNormal"
-                android:text="1"
+                android:text="@string/num_1"
                 android:textColor="#fff" />
 
             <Button
@@ -127,7 +115,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="4"
+                android:text="@string/num_4"
                 android:textColor="#fff" />
 
             <Button
@@ -136,7 +124,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="7"
+                android:text="@string/num_7"
                 android:textColor="#fff" />
 
             <Button
@@ -145,7 +133,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="."
+                android:text="@string/symbol_dot"
                 android:textColor="#fff" />
         </LinearLayout>
 
@@ -162,7 +150,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@color/colorNormal"
-                android:text="2"
+                android:text="@string/num_2"
                 android:textColor="#fff" />
 
             <Button
@@ -171,7 +159,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="5"
+                android:text="@string/num_5"
                 android:textColor="#fff" />
 
             <Button
@@ -180,7 +168,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="8"
+                android:text="@string/num_8"
                 android:textColor="#fff" />
 
             <Button
@@ -189,7 +177,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="0"
+                android:text="@string/num_0"
                 android:textColor="#fff" />
         </LinearLayout>
 
@@ -204,7 +192,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@color/colorNormal"
-                android:text="3"
+                android:text="@string/num_3"
                 android:textColor="#fff" />
 
             <Button
@@ -213,7 +201,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="6"
+                android:text="@string/num_6"
                 android:textColor="#fff" />
 
             <Button
@@ -222,7 +210,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="9"
+                android:text="@string/num_9"
                 android:textColor="#fff" />
 
             <Button
@@ -231,7 +219,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="清零"
+                android:text="@string/num_clear"
                 android:textColor="#fff" />
         </LinearLayout>
 
@@ -248,7 +236,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorNormal"
-                android:text="←"
+                android:text="@string/symbol_delete"
                 android:textColor="#fff" />
 
             <Button
@@ -257,8 +245,11 @@
                 android:layout_height="183dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorClick"
-                android:text="确定"
+                android:text="@string/sure"
                 android:textColor="@color/white" />
+
         </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>

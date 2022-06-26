@@ -80,13 +80,4 @@ public class AddViewModel extends ViewModel {
                 (Boolean.TRUE.equals(mIn.getValue()) ? "+¥" : "-¥") + mMoneyDigitText.getValue()
         );
     }
-
-    /***********************************************************
-     ************************** 其他 ****************************
-     ***********************************************************/
-    public void reset() {
-        mIn.setValue(false);
-        mMoneyDigitText.setValue("0");
-        updateMoneyText();
-    }
 }

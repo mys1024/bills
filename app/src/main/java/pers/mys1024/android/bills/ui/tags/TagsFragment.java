@@ -13,10 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Objects;
+
 import pers.mys1024.android.bills.R;
 import pers.mys1024.android.bills.databinding.FragmentTagsBinding;
 import pers.mys1024.android.bills.db.AppDatabase;
-import pers.mys1024.android.bills.db.dao.TagDao;
 import pers.mys1024.android.bills.db.entity.Tag;
 
 public class TagsFragment extends Fragment {
@@ -27,13 +28,10 @@ public class TagsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentTagsBinding.inflate(inflater, container, false);
 
-        // 获取 TagDao
-        TagDao tagDao = AppDatabase.getInstance(getActivity()).tagDao();
-
         // 获取 TagsViewModel
         TagsViewModel tagsViewModel =
                 new ViewModelProvider(this).get(TagsViewModel.class);
-        tagsViewModel.setTagDao(tagDao);
+        tagsViewModel.setTagDao(AppDatabase.getInstance(getActivity()).tagDao());
 
         // 初始化 RecyclerView
         final RecyclerView rvBills = binding.rvTags;
@@ -75,7 +73,31 @@ public class TagsFragment extends Fragment {
         });
 
         // 监听 TagsViewModel 数据变化
-        tagsViewModel.getTags().observe(getViewLifecycleOwner(), rvAdapter::updateTags);
+        tagsViewModel.getIn().observe(getViewLifecycleOwner(), in -> {
+            if (in) {
+                rvAdapter.updateTags(Objects.requireNonNull(tagsViewModel.getInTags().getValue()));
+            } else {
+                rvAdapter.updateTags(Objects.requireNonNull(tagsViewModel.getOutTags().getValue()));
+            }
+        });
+        tagsViewModel.getInTags().observe(
+                getViewLifecycleOwner(),
+                tags -> {
+                    if (!Boolean.TRUE.equals(tagsViewModel.getIn().getValue())) {
+                        return;
+                    }
+                    rvAdapter.updateTags(tags);
+                }
+        );
+        tagsViewModel.getOutTags().observe(
+                getViewLifecycleOwner(),
+                tags -> {
+                    if (Boolean.TRUE.equals(tagsViewModel.getIn().getValue())) {
+                        return;
+                    }
+                    rvAdapter.updateTags(tags);
+                }
+        );
 
         return binding.getRoot();
     }
